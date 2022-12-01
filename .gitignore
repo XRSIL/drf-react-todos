@@ -2,3 +2,4 @@ backend/venv
 frontend/node_modules
 .DS_Store
 __pycache__
+.idea
