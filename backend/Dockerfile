@@ -1,13 +1,20 @@
-FROM  python:3.9
+FROM  python:3.9-slim-bullseye
 
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /backend
 
-RUN pip install django django-cors-headers djangorestframework
+RUN python3 -m venv /opt/venv
 
-# copy from the current directory of the Dockerfile to /api in the image
-COPY . . 
+COPY requirements.txt .
+
+RUN . /opt/venv/bin/activate && pip install -r requirements.txt
+
+COPY . .
 
 EXPOSE 8000
+
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod o+x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
